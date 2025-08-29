@@ -2,6 +2,8 @@
 {
     internal class Program
     {
+        static string bg = "";
+
         static void Main(string[] args)
         {
             Console.WriteLine("Hello, World!");
@@ -21,54 +23,17 @@
         {
             Console.SetCursorPosition(0, 0);
 
-            double d = 0;
-
-            string bg = "";
-
-            int lineWidth = r / 10;
-
-            if (lineWidth < 2)
+            // If we don't have the circle background, get it
+            if (bg == "")
             {
-                lineWidth = 2;
+                bg = getBG(r);
             }
 
-            for (double y = 1; y < r * 2; y++)
-            {
-                for (double x = 0.5; x < r * 2; x += 0.5)
-                {
-                    d = distanceFormula(x - r, y - r);
-
-                    if (d <= r)
-                    {
-                        if (Math.Round(d) > r - lineWidth)
-                        {
-                            Console.ForegroundColor = ConsoleColor.DarkGray;
-                            bg += "█";
-                        }
-                        else
-                        {
-                            bg += " ";
-                        }
-                    }
-                    else
-                    {
-                        if (x > r)
-                        {
-                            x = r * 2;
-                        }
-                        else
-                        {
-                            bg += " ";
-                        }
-                    }
-                }
-
-                bg += "\n";
-            }
-
+            // Draw the circle background
+            Console.ForegroundColor = ConsoleColor.DarkGray;
             Console.WriteLine(bg);
 
-            // Draw time at the bottom
+            // Draw the time at the bottom
             Console.ForegroundColor = ConsoleColor.White;
             Console.WriteLine($"\nTime: {DateTime.Now.ToString()}");
 
@@ -114,6 +79,54 @@
                 Console.SetCursorPosition(cx, cy);
                 Console.Write("█");
             }
+        }
+
+        public static string getBG(int r)
+        {
+            double d = 0;
+            int lineWidth = r / 10;
+
+            if (lineWidth < 2)
+            {
+                lineWidth = 2;
+            }
+
+            string cbg = "";
+
+            for (double y = 1; y < r * 2; y++)
+            {
+                for (double x = 0.5; x < r * 2; x += 0.5)
+                {
+                    d = distanceFormula(x - r, y - r);
+
+                    if (d <= r)
+                    {
+                        if (Math.Round(d) > r - lineWidth)
+                        {
+                            cbg += "█";
+                        }
+                        else
+                        {
+                            cbg += " ";
+                        }
+                    }
+                    else
+                    {
+                        if (x > r)
+                        {
+                            x = r * 2;
+                        }
+                        else
+                        {
+                            cbg += " ";
+                        }
+                    }
+                }
+
+                cbg += "\n";
+            }
+
+            return cbg;
         }
 
         public static int getNumber(string dialogue, int min)
