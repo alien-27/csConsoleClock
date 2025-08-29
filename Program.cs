@@ -25,6 +25,13 @@
 
             string bg = "";
 
+            int lineWidth = r / 10;
+
+            if (lineWidth < 2)
+            {
+                lineWidth = 2;
+            }
+
             for (double y = 1; y < r * 2; y++)
             {
                 for (double x = 0.5; x < r * 2; x += 0.5)
@@ -33,7 +40,7 @@
 
                     if (d <= r)
                     {
-                        if (Math.Round(d) > r - (r / 10))
+                        if (Math.Round(d) > r - lineWidth)
                         {
                             Console.ForegroundColor = ConsoleColor.DarkGray;
                             bg += "█";
@@ -75,9 +82,14 @@
             min += (sec / 60);
             hou += (min / 60);
 
-            drawLine(r, (sec / 60) * Math.PI * 2, r - 3, ConsoleColor.Red);
-            drawLine(r, (min / 60) * Math.PI * 2, r - 5, ConsoleColor.Blue);
-            drawLine(r, (hou / 12) * Math.PI * 2, r - 7, ConsoleColor.Green);
+            int secHandLength = (int)Math.Round(r - (double)Math.Max(r / 10, 2));
+            secHandLength = (int)(secHandLength * 0.95);
+            int minHandLength = (int)(secHandLength * 0.8);
+            int houHandLength = (int)(secHandLength * 0.7);
+
+            drawLine(r, (sec / 60) * Math.PI * 2, secHandLength, ConsoleColor.Red);
+            drawLine(r, (min / 60) * Math.PI * 2, minHandLength, ConsoleColor.Blue);
+            drawLine(r, (hou / 12) * Math.PI * 2, houHandLength, ConsoleColor.Green);
         }
 
         static void drawLine(int r, double a, int length, ConsoleColor c)
@@ -86,7 +98,20 @@
 
             for (double l = 0; l < length; l += 0.5)
             {
-                Console.SetCursorPosition((int)((r + (l * Math.Sin(a))) * 2), (int)(r - (l * Math.Cos(a))) );
+                int cx = (int)((r + (l * Math.Sin(a))) * 2);
+                int cy = (int)(r - (l * Math.Cos(a)));
+
+                if (cx >= Console.BufferWidth)
+                {
+                    cx = Console.BufferWidth - 1;
+                }
+
+                if (cy >= Console.BufferHeight)
+                {
+                    cy = Console.BufferHeight - 1;
+                }
+
+                Console.SetCursorPosition(cx, cy);
                 Console.Write("█");
             }
         }
