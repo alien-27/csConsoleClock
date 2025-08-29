@@ -66,9 +66,14 @@
             Console.WriteLine($"\nTime: {DateTime.Now.ToString()}");
 
             // draw hands
+            double ms = DateTime.Now.Millisecond;
             double sec = DateTime.Now.Second;
             double min = DateTime.Now.Minute;
             double hou = DateTime.Now.Hour;
+
+            sec += (ms / 1000);
+            min += (sec / 60);
+            hou += (min / 60);
 
             drawLine(r, (sec / 60) * Math.PI * 2, r - 3, ConsoleColor.Red);
             drawLine(r, (min / 60) * Math.PI * 2, r - 5, ConsoleColor.Blue);
