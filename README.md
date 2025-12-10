@@ -1,2 +1,2 @@
 # consoleClock
-An analogue clock made in C#
+An analogue clock made in th command line in C#.
