@@ -1,2 +1,2 @@
 # csConsoleClock
-An analogue clock made in th command line in C#.
+An analog clock made in the command line in C#.
